@@ -1,6 +1,6 @@
 # Kanso — Task Board
 
-![CI](https://github.com/ngnhanbao/kanso-task-board/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/nhanbaoit/kanso-task-board/actions/workflows/ci.yml/badge.svg)
 
 A calm, minimal kanban task board built for focused teams. Full-stack portfolio project: **Next.js (App Router) + TypeScript + Tailwind CSS v4 + Supabase + dnd-kit**.
 

@@ -17,6 +17,7 @@ import { BoardHeader } from '@/components/BoardHeader'
 import { Column } from '@/components/Column'
 import { TaskCard } from '@/components/TaskCard'
 import { TaskModal } from '@/components/TaskModal'
+import { OnboardingTour } from '@/components/OnboardingTour'
 import { COLUMNS, type ColumnId, type Task, type TaskDraft } from '@/types'
 
 type FilterMode = 'all' | 'high' | 'urgent'
@@ -48,6 +49,27 @@ export default function BoardPage() {
   const [modal, setModal] = useState<{ open: boolean; task?: Task; column?: ColumnId }>({
     open: false,
   })
+  const [tourOpen, setTourOpen] = useState(false)
+
+  useEffect(() => {
+    if (loading) return
+    try {
+      if (window.localStorage.getItem('kanso-onboarding-seen') !== '1') {
+        setTourOpen(true)
+      }
+    } catch {
+      // storage unavailable — skip the tour silently
+    }
+  }, [loading])
+
+  const closeTour = () => {
+    setTourOpen(false)
+    try {
+      window.localStorage.setItem('kanso-onboarding-seen', '1')
+    } catch {
+      // ignore storage errors
+    }
+  }
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
 
@@ -174,6 +196,13 @@ export default function BoardPage() {
             </kbd>{' '}
             to command bar
           </span>
+          <button
+            type="button"
+            onClick={() => setTourOpen(true)}
+            className="font-medium text-ink-secondary underline decoration-border-subtle underline-offset-2 transition-colors hover:text-ink"
+          >
+            Guide
+          </button>
         </div>
         <div className="flex items-center gap-1.5">
           <span className={`size-2 rounded-full ${loading ? 'animate-pulse bg-warning' : 'bg-accent'}`} />
@@ -195,6 +224,8 @@ export default function BoardPage() {
         onSave={handleSave}
         onDelete={deleteTask}
       />
+
+      <OnboardingTour open={tourOpen} onClose={closeTour} />
     </div>
   )
 }

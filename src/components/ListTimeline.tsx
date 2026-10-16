@@ -3,6 +3,7 @@
 import type { Task } from '../types'
 import { COLUMNS } from '../types'
 import { tagTone } from '../lib/tagTone'
+import { formatDueDate, toISODate } from '../lib/dueDate'
 
 const AVATAR_TONES = [
   'bg-accent-soft text-accent-hover',
@@ -82,7 +83,7 @@ export function ListView({
                   ))}
                 </div>
                 <span className="hidden w-14 shrink-0 text-right text-[11px] text-ink-tertiary sm:inline">
-                  {task.dueDate ?? '—'}
+                  {task.dueDate ? formatDueDate(task.dueDate) : '—'}
                 </span>
                 {task.assignee ? (
                   <span
@@ -108,10 +109,9 @@ export function ListView({
 const MONTH_DAYS = 31
 
 function dayOf(due?: string): number | null {
-  if (!due) return null
-  const m = due.match(/(\d{1,2})/)
-  if (!m) return null
-  const day = Number.parseInt(m[1], 10)
+  const iso = toISODate(due)
+  if (!iso) return null
+  const day = Number.parseInt(iso.slice(8, 10), 10)
   return day >= 1 && day <= MONTH_DAYS ? day : null
 }
 

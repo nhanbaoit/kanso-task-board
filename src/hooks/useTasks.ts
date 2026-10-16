@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ColumnId, Task, TaskDraft } from '../types'
 import { SEED_TASKS } from '../data'
 import { getSupabase, isSupabaseConfigured } from '../lib/supabase'
+import { toISODate } from '../lib/dueDate'
 
 const STORAGE_KEY = 'kanso-tasks-v1'
 
@@ -35,7 +36,7 @@ function rowToTask(r: DBTask): Task {
     column: r.status,
     tags: r.tags ?? [],
     priority: r.priority ?? undefined,
-    dueDate: r.due_date ?? undefined,
+    dueDate: toISODate(r.due_date),
     dueTone: r.due_tone ?? undefined,
     checklist:
       r.checklist_done != null && r.checklist_total != null
@@ -73,7 +74,8 @@ function loadLocal(): Task[] {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return SEED_TASKS
     const parsed = JSON.parse(raw) as Task[]
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : SEED_TASKS
+    const list = Array.isArray(parsed) && parsed.length > 0 ? parsed : SEED_TASKS
+    return list.map((t) => ({ ...t, dueDate: toISODate(t.dueDate) }))
   } catch {
     return SEED_TASKS
   }

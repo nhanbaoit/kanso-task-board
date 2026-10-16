@@ -4,6 +4,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import type { Task } from '../types'
 import { tagTone } from '../lib/tagTone'
+import { formatDueDate, isOverdue } from '../lib/dueDate'
 
 const AVATAR_TONES = [
   'bg-accent-soft text-accent-hover',
@@ -20,6 +21,7 @@ function avatarTone(initials: string) {
 
 export function TaskCard({ task, onOpen }: { task: Task; onOpen?: () => void }) {
   const isDone = task.column === 'done'
+  const overdue = isOverdue(task.dueDate, isDone)
 
   return (
     <article
@@ -108,11 +110,15 @@ export function TaskCard({ task, onOpen }: { task: Task; onOpen?: () => void }) 
             <>
               <span
                 className={`flex items-center gap-1 ${
-                  task.dueTone === 'highlight' ? 'font-medium text-warning' : 'text-ink-tertiary'
+                  overdue
+                    ? 'font-medium text-urgent'
+                    : task.dueTone === 'highlight'
+                      ? 'font-medium text-warning'
+                      : 'text-ink-tertiary'
                 }`}
               >
                 <IconFlagSmall />
-                {task.dueDate ?? 'No date'}
+                {task.dueDate ? formatDueDate(task.dueDate) : 'No date'}
               </span>
               {task.attachments != null && task.attachments > 0 && (
                 <span className="flex items-center gap-0.5 text-ink-tertiary">

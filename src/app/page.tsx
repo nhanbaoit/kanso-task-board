@@ -19,18 +19,15 @@ import { TaskCard } from '@/components/TaskCard'
 import { TaskModal } from '@/components/TaskModal'
 import { OnboardingTour } from '@/components/OnboardingTour'
 import { COLUMNS, type ColumnId, type Task, type TaskDraft } from '@/types'
+import { toISODate } from '@/lib/dueDate'
 
 type FilterMode = 'all' | 'high' | 'urgent'
 type SortMode = 'due' | 'new'
 
-const DUE_MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-
 function dueTs(due?: string): number {
-  if (!due) return Number.POSITIVE_INFINITY
-  const monthIdx = DUE_MONTHS.findIndex((m) => due.toLowerCase().includes(m))
-  const dayMatch = due.match(/(\d{1,2})/)
-  if (monthIdx === -1 || !dayMatch) return Number.POSITIVE_INFINITY
-  return new Date(2024, monthIdx, Number.parseInt(dayMatch[1], 10)).getTime()
+  const iso = toISODate(due)
+  if (!iso) return Number.POSITIVE_INFINITY
+  return new Date(`${iso}T00:00:00`).getTime()
 }
 
 const COLUMN_DOTS: Record<ColumnId, string> = {

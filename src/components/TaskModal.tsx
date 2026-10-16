@@ -180,13 +180,28 @@ export function TaskModal({ open, task, defaultColumn, onClose, onSave, onDelete
               <label htmlFor="task-due" className={labelClass}>
                 Due date
               </label>
-              <input
-                id="task-due"
-                value={draft.dueDate}
-                onChange={(e) => set('dueDate', e.target.value)}
-                placeholder="e.g. Oct 24"
-                className={inputClass}
-              />
+              <div className="relative">
+                <input
+                  id="task-due"
+                  type="date"
+                  value={draft.dueDate}
+                  onChange={(e) => set('dueDate', e.target.value)}
+                  className={inputClass}
+                />
+                {draft.dueDate && (
+                  <button
+                    type="button"
+                    aria-label="Clear due date"
+                    title="Clear due date"
+                    onClick={() => set('dueDate', '')}
+                    className="absolute right-7 top-1/2 -translate-y-1/2 rounded p-0.5 text-ink-tertiary transition-colors hover:text-ink"
+                  >
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                      <path d="m6 6 12 12M18 6 6 18" />
+                    </svg>
+                  </button>
+                )}
+              </div>
             </div>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="task-assignee" className={labelClass}>

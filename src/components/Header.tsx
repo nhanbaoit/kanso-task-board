@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useUI } from './UIContext'
+import { getSupabase } from '../lib/supabase'
 import {
   IconBell,
   IconChevronDown,
@@ -11,6 +12,7 @@ import {
   IconList,
   IconCalendarWeek,
   IconLogo,
+  IconLogout,
   IconMenu,
   IconSearch,
 } from '../icons'
@@ -23,8 +25,12 @@ export const NAV_ITEMS: { href: string; label: string; icon: typeof IconKanban }
 
 export function Header() {
   const pathname = usePathname()
-  const { searchOpen, query, sidebarOpen, setSearchOpen, setQuery, setSidebarOpen } = useUI()
+  const { user, searchOpen, query, sidebarOpen, setSearchOpen, setQuery, setSidebarOpen } = useUI()
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const signOut = async () => {
+    await getSupabase()?.auth.signOut()
+  }
 
   useEffect(() => {
     if (searchOpen) inputRef.current?.focus()
@@ -127,9 +133,32 @@ export function Header() {
           >
             <IconBell size={19} />
           </button>
-          <div className="flex size-8 items-center justify-center rounded-full bg-accent-soft text-accent-hover ring-1 ring-border-subtle">
-            <IconPersonSmall />
-          </div>
+          {user ? (
+            <div className="flex items-center gap-1.5">
+              <span className="hidden max-w-36 truncate text-[12px] text-ink-secondary sm:inline">
+                {user.email}
+              </span>
+              <span
+                className="flex size-8 items-center justify-center rounded-full bg-accent-soft text-[12px] font-medium text-accent-hover ring-1 ring-border-subtle"
+                title={user.email}
+              >
+                {(user.email ?? '?').charAt(0).toUpperCase()}
+              </span>
+              <button
+                type="button"
+                aria-label="Sign out"
+                title="Sign out"
+                onClick={signOut}
+                className="rounded-lg p-1.5 text-ink-secondary transition-colors hover:bg-surface-tone hover:text-ink"
+              >
+                <IconLogout size={17} />
+              </button>
+            </div>
+          ) : (
+            <div className="flex size-8 items-center justify-center rounded-full bg-accent-soft text-accent-hover ring-1 ring-border-subtle">
+              <IconPersonSmall />
+            </div>
+          )}
         </div>
       </div>
     </header>

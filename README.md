@@ -13,6 +13,7 @@ A calm, minimal kanban task board built for focused teams. Full-stack portfolio 
 
 - **Kanban board** — three columns (To Do / In Progress / Done) with smooth drag & drop between columns, powered by `@dnd-kit` with a `DragOverlay` and column highlight states
 - **Task CRUD** — create, edit and delete tasks through a modal (press <kbd>C</kbd> anywhere to quick-create)
+- **Authentication** — email + password sign-up/sign-in via Supabase Auth with cookie-based sessions; every account gets a private workspace enforced by Row Level Security
 - **Real database** — tasks persist in **Supabase Postgres** with Row Level Security enabled; every drag, edit and delete syncs instantly
 - **Graceful offline fallback** — if the database is unreachable, the app silently degrades to browser localStorage so it never breaks
 - **Multiple views** — Board, Backlog List (with checkboxes) and Roadmap timeline, each on its own route
@@ -43,7 +44,8 @@ npm install
 
 1. Create a free project at [supabase.com](https://supabase.com)
 2. Run the schema below in the Supabase **SQL Editor**
-3. Create a `.env.local` file in the project root:
+3. In **Authentication → Providers**, make sure **Email** is enabled (disable *Confirm email* for a frictionless demo)
+4. Create a `.env.local` file in the project root:
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
@@ -70,18 +72,29 @@ create table public.tasks (
   assignee text,
   completed_note text,
   preview text,
+  owner_id uuid references auth.users(id) on delete cascade
+    default auth.uid(),
   created_at timestamptz not null default now()
 );
 
 alter table public.tasks enable row level security;
 
-create policy "tasks_select" on public.tasks for select using (true);
-create policy "tasks_insert" on public.tasks for insert with check (true);
-create policy "tasks_update" on public.tasks for update using (true);
-create policy "tasks_delete" on public.tasks for delete using (true);
+-- Seed/demo rows (owner_id null) stay visible to everyone;
+-- each user's own rows are visible only to them.
+create policy "tasks_select" on public.tasks for select
+  using (owner_id is null or owner_id = auth.uid());
+
+create policy "tasks_insert" on public.tasks for insert
+  with check (auth.uid() is not null);
+
+create policy "tasks_update" on public.tasks for update
+  using (owner_id is null or owner_id = auth.uid());
+
+create policy "tasks_delete" on public.tasks for delete
+  using (owner_id is null or owner_id = auth.uid());
 ```
 
-> The policies are intentionally permissive for this demo. In a production app with authentication, they should be scoped to `auth.uid()`.
+> `owner_id` is filled automatically by `default auth.uid()` on insert. In a production app you would tighten the demo-row exceptions (`owner_id is null`) so each workspace is fully private.
 
 ### 4. Run
 
@@ -127,7 +140,8 @@ npm run test:watch    # watch mode
 
 ## Roadmap
 
-- [ ] Authentication (Google / email) with scoped RLS policies
+- [x] Authentication (email + password) with scoped RLS policies
+- [ ] Google OAuth sign-in
 - [ ] Multiple boards per workspace
 - [ ] Checklist editing directly on cards
 - [ ] Realistic due dates with overdue highlighting

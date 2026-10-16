@@ -2,8 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Geist, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { UIProvider } from '@/components/UIContext'
-import { Header } from '@/components/Header'
-import { Sidebar } from '@/components/Sidebar'
+import { AppShell } from '@/components/AppShell'
 
 const geist = Geist({
   subsets: ['latin'],
@@ -34,11 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${geist.variable} ${mono.variable}`}>
       <body>
         <UIProvider>
-          <Header />
-          <Sidebar />
-          <div className="md:pl-64">
-            <main className="min-h-screen w-full pt-14">{children}</main>
-          </div>
+          <AppShell>{children}</AppShell>
         </UIProvider>
       </body>
     </html>

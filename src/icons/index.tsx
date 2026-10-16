@@ -224,6 +224,13 @@ export const IconMenu = (p: IconProps) => (
   </Base>
 )
 
+export const IconLogout = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M14.5 4H18a1.5 1.5 0 0 1 1.5 1.5v13A1.5 1.5 0 0 1 18 20h-3.5" />
+    <path d="M9.5 8.5 6 12l3.5 3.5M6 12h9" />
+  </Base>
+)
+
 export const IconLogo = ({ size = 32, ...props }: IconProps) => (
   <svg viewBox="0 0 32 32" width={size} height={size} aria-hidden="true" {...props}>
     <rect width="32" height="32" rx="8" fill="#5C7C66" />

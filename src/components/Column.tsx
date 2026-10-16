@@ -15,6 +15,12 @@ interface ColumnProps {
   onOpenTask: (task: Task) => void
 }
 
+const BADGE_TONE: Record<ColumnId, string> = {
+  todo: 'bg-accent-soft text-accent',
+  inprogress: 'bg-warning-soft text-warning',
+  done: 'bg-success-soft text-success',
+}
+
 export function Column({ id, label, dotClass, tasks, onAddTask, onOpenTask }: ColumnProps) {
   const { setNodeRef, isOver } = useDroppable({ id, data: { columnId: id } })
 
@@ -30,7 +36,7 @@ export function Column({ id, label, dotClass, tasks, onAddTask, onOpenTask }: Co
         <div className="flex items-center gap-2">
           <span className={`size-2 rounded-full ${dotClass}`} />
           <h2 className="text-[13px] font-semibold uppercase tracking-wider text-ink">{label}</h2>
-          <span className="rounded-full bg-surface px-2 py-0.5 font-mono text-[12px] font-medium text-ink-secondary ring-1 ring-border-subtle">
+          <span className={`rounded-full px-2 py-0.5 font-mono text-[12px] font-medium ${BADGE_TONE[id]}`}>
             {tasks.length}
           </span>
         </div>

@@ -5,11 +5,19 @@ import { usePathname } from 'next/navigation'
 import { useUI } from './UIContext'
 import { NAV_ITEMS } from './Header'
 import { useTasks } from '../hooks/useTasks'
-import { IconTune, IconLogo, IconX } from '../icons'
+import { getSupabase } from '../lib/supabase'
+import { IconLogo, IconLogout, IconX } from '../icons'
 
 function SidebarInner({ onClose }: { onClose: () => void }) {
   const pathname = usePathname()
   const { tasks } = useTasks()
+  const { user } = useUI()
+
+  const signOut = async () => {
+    await getSupabase()?.auth.signOut()
+  }
+
+  const displayName = user?.email ? user.email.split('@')[0] : 'Guest'
 
   return (
     <div className="flex h-full flex-col justify-between py-4">
@@ -81,15 +89,35 @@ function SidebarInner({ onClose }: { onClose: () => void }) {
         </nav>
       </div>
 
-      <div className="flex flex-col gap-0.5 border-t border-border-subtle/60 px-3 pt-3">
-        <button
-          type="button"
-          className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-[13px] text-ink-secondary transition-colors hover:bg-surface-tone hover:text-ink"
-        >
-          <IconTune size={17} />
-          Settings
-        </button>
-        <div className="flex items-center justify-between px-2 pt-1 text-[11px] text-ink-tertiary">
+      <div className="flex flex-col gap-2 border-t border-border-subtle/60 px-3 pt-3">
+        {user ? (
+          <div className="flex items-center gap-2.5 rounded-lg px-1.5 py-1.5">
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent-soft text-[12px] font-medium text-accent-hover">
+              {(user.email ?? '?').charAt(0).toUpperCase()}
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-[13px] font-medium capitalize text-ink">{displayName}</span>
+              <span className="block truncate text-[11px] text-ink-tertiary">{user.email}</span>
+            </span>
+            <button
+              type="button"
+              aria-label="Sign out"
+              title="Sign out"
+              onClick={signOut}
+              className="rounded-lg p-1.5 text-ink-tertiary transition-colors hover:bg-surface-tone hover:text-ink"
+            >
+              <IconLogout size={16} />
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2.5 rounded-lg px-1.5 py-1.5">
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-surface-tone text-ink-secondary">
+              ?
+            </span>
+            <span className="text-[13px] text-ink-secondary">Not signed in</span>
+          </div>
+        )}
+        <div className="flex items-center justify-between px-2 pb-1 text-[11px] text-ink-tertiary">
           <span>Kanso v1.2</span>
           <span className="size-1.5 rounded-full bg-accent" />
         </div>

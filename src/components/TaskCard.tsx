@@ -111,7 +111,7 @@ export function TaskCard({ task, onOpen }: { task: Task; onOpen?: () => void }) 
                   task.dueTone === 'highlight' ? 'font-medium text-warning' : 'text-ink-tertiary'
                 }`}
               >
-                {task.dueTone === 'highlight' ? <IconScheduleSmall /> : <IconCalendarSmall />}
+                <IconFlagSmall />
                 {task.dueDate ?? 'No date'}
               </span>
               {task.attachments != null && task.attachments > 0 && (
@@ -181,20 +181,11 @@ function IconCheckCircleSmall() {
   )
 }
 
-function IconCalendarSmall() {
+function IconFlagSmall() {
   return (
     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="4" y="5.5" width="16" height="14.5" rx="2" />
-      <path d="M4 10h16M8.5 3.5v3M15.5 3.5v3" />
-    </svg>
-  )
-}
-
-function IconScheduleSmall() {
-  return (
-    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="12" cy="12" r="8.5" />
-      <path d="M12 7.5V12l3 2" />
+      <path d="M5 21V4.5" />
+      <path d="M5 4.5h11.5l-2 3.5 2 3.5H5" />
     </svg>
   )
 }

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { Task } from '../types'
+import { useUI } from './UIContext'
 import { Dropdown, DropdownItem } from './Dropdown'
 import {
   IconCheckCircle,
@@ -9,7 +10,6 @@ import {
   IconFlag,
   IconPerson,
   IconPlus,
-  IconShare,
   IconSort,
   IconSpeed,
   IconPending,
@@ -37,6 +37,11 @@ export function BoardHeader({
 }: BoardHeaderProps) {
   const [filterOpen, setFilterOpen] = useState(false)
   const [sortOpen, setSortOpen] = useState(false)
+  const { user } = useUI()
+
+  const displayName = user?.email
+    ? user.email.split('@')[0].charAt(0).toUpperCase() + user.email.split('@')[0].slice(1)
+    : 'there'
 
   const total = tasks.length
   const done = tasks.filter((t) => t.column === 'done').length
@@ -46,21 +51,20 @@ export function BoardHeader({
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-        <div className="flex flex-col gap-0.5">
-          <div className="flex items-center gap-3">
-            <h1 className="text-[22px] font-semibold tracking-[-0.015em] text-ink">Product Launch</h1>
-            <span className="inline-flex items-center rounded-full bg-surface-tone px-2 py-0.5 font-mono text-[12px] text-ink-secondary">
-              v1.0.4
-            </span>
-          </div>
-          <div className="flex flex-wrap items-center gap-2 text-[13px] text-ink-secondary">
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-[22px] font-semibold tracking-[-0.015em] text-ink">
+            Welcome back, {displayName}
+          </h1>
+          <p className="flex flex-wrap items-center gap-2 text-[13px] text-ink-secondary">
+            <span>Product Launch</span>
+            <span className="size-1 rounded-full bg-border-subtle" />
             <span>Q3 Go-To-Market</span>
             <span className="size-1 rounded-full bg-border-subtle" />
             <span>{active} active tasks</span>
             <span className="size-1 rounded-full bg-border-subtle" />
             <span className="font-medium text-accent">Sprint 4 (3 days remaining)</span>
-          </div>
+          </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -81,13 +85,13 @@ export function BoardHeader({
           <span className="mx-0.5 hidden h-4 w-px bg-border-subtle sm:block" />
 
           <Dropdown
-            label="Filter"
+            label={`Priority · ${filter === 'all' ? 'All' : filter === 'high' ? 'High' : 'Urgent'}`}
             icon={<IconFilter size={15} />}
             open={filterOpen}
             onOpenChange={setFilterOpen}
           >
             <DropdownItem active={filter === 'all'} onClick={() => { onFilterChange('all'); setFilterOpen(false) }}>
-              All tasks
+              All
             </DropdownItem>
             <DropdownItem active={filter === 'high'} onClick={() => { onFilterChange('high'); setFilterOpen(false) }}>
               High priority
@@ -98,7 +102,7 @@ export function BoardHeader({
           </Dropdown>
 
           <Dropdown
-            label="Sort"
+            label={`Sort · ${sort === 'due' ? 'Due date' : 'Newest'}`}
             icon={<IconSort size={15} />}
             open={sortOpen}
             onOpenChange={setSortOpen}
@@ -113,19 +117,11 @@ export function BoardHeader({
 
           <button
             type="button"
-            className="flex items-center gap-1.5 rounded-lg bg-surface px-2 py-1.5 text-[13px] text-ink-secondary shadow-[0_0_0_1px_#E7E4DC] transition-colors hover:bg-surface-subtle hover:text-ink"
-          >
-            <IconShare size={15} />
-            <span className="hidden sm:inline">Share</span>
-          </button>
-
-          <button
-            type="button"
             onClick={onNewTask}
-            className="flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-[13px] font-medium text-white shadow-sm transition-all hover:bg-accent-hover active:scale-95"
+            className="flex items-center gap-1.5 rounded-lg bg-ink px-3 py-1.5 text-[13px] font-medium text-white transition-all hover:bg-ink/85 active:scale-95"
           >
             <IconPlus size={15} />
-            <span>New Task</span>
+            <span>Add New</span>
           </button>
         </div>
       </div>

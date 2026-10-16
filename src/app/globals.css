@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+
+  /* Quiet Horizon — surfaces */
+  --color-canvas: #f6f4ef;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #faf9f6;
+  --color-surface-tone: #f0eee7;
+  --color-border-subtle: #e7e4dc;
+  --color-border-hover: #dad6cd;
+
+  /* Quiet Horizon — ink */
+  --color-ink: #1e1e1e;
+  --color-ink-secondary: #6e6b65;
+  --color-ink-tertiary: #9d9a93;
+
+  /* Quiet Horizon — botanical accent */
+  --color-accent: #5c7c66;
+  --color-accent-hover: #4d6956;
+  --color-accent-soft: #edf3ee;
+  --color-accent-ring: rgba(92, 124, 102, 0.4);
+
+  /* Quiet Horizon — status */
+  --color-urgent: #b36458;
+  --color-urgent-soft: #fbf1ef;
+  --color-warning: #c29048;
+  --color-warning-soft: #faf4ea;
+  --color-info: #5e798d;
+  --color-info-soft: #eff4f8;
+
+  /* Elevation */
+  --shadow-card: 0 1px 3px rgba(30, 30, 30, 0.04), 0 4px 8px -2px rgba(30, 30, 30, 0.02);
+  --shadow-card-hover: 0 4px 12px rgba(30, 30, 30, 0.06), 0 2px 4px -1px rgba(30, 30, 30, 0.03);
+  --shadow-drag: 0 12px 28px rgba(30, 30, 30, 0.1), 0 4px 10px rgba(30, 30, 30, 0.05);
+  --shadow-overlay: 0 16px 36px -4px rgba(30, 30, 30, 0.12), 0 4px 12px rgba(30, 30, 30, 0.04);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-canvas);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-hover);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

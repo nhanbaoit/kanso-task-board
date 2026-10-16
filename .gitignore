@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+next-env.d.ts
+
+# vite leftovers
+dist/
+
+# misc
+.DS_Store
+*.tsbuildinfo
+
+# env files — never commit
+.env*

@@ -34,9 +34,9 @@ function dueTs(due?: string): number {
 }
 
 const COLUMN_DOTS: Record<ColumnId, string> = {
-  todo: 'bg-ink-tertiary',
-  inprogress: 'bg-accent animate-pulse',
-  done: 'bg-accent-soft ring-1 ring-border-subtle',
+  todo: 'bg-accent',
+  inprogress: 'bg-warning animate-pulse',
+  done: 'bg-success',
 }
 
 export default function BoardPage() {

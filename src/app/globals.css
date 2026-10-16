@@ -17,19 +17,21 @@
   --color-ink-secondary: #6e6b65;
   --color-ink-tertiary: #9d9a93;
 
-  /* Quiet Horizon — botanical accent */
-  --color-accent: #5c7c66;
-  --color-accent-hover: #4d6956;
-  --color-accent-soft: #edf3ee;
-  --color-accent-ring: rgba(92, 124, 102, 0.4);
+  /* Vibrant palette — blue primary, green/amber/red/violet status */
+  --color-accent: #2563eb;
+  --color-accent-hover: #1d4ed8;
+  --color-accent-soft: #dbeafe;
+  --color-accent-ring: rgba(37, 99, 235, 0.4);
 
-  /* Quiet Horizon — status */
-  --color-urgent: #b36458;
-  --color-urgent-soft: #fbf1ef;
-  --color-warning: #c29048;
-  --color-warning-soft: #faf4ea;
-  --color-info: #5e798d;
-  --color-info-soft: #eff4f8;
+  /* Status — success / urgent / warning / info */
+  --color-success: #16a34a;
+  --color-success-soft: #dcfce7;
+  --color-urgent: #dc2626;
+  --color-urgent-soft: #fee2e2;
+  --color-warning: #d97706;
+  --color-warning-soft: #fef3c7;
+  --color-info: #7c3aed;
+  --color-info-soft: #ede9fe;
 
   /* Elevation */
   --shadow-card: 0 1px 3px rgba(30, 30, 30, 0.04), 0 4px 8px -2px rgba(30, 30, 30, 0.02);

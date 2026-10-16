@@ -3,6 +3,7 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import type { Task } from '../types'
+import { tagTone } from '../lib/tagTone'
 
 const AVATAR_TONES = [
   'bg-accent-soft text-accent-hover',
@@ -46,17 +47,17 @@ export function TaskCard({ task, onOpen }: { task: Task; onOpen?: () => void }) 
             </span>
           )}
           {task.priority === 'low' && (
-            <span className="rounded-full border border-accent/15 bg-accent-soft px-2 py-0.5 text-[11px] font-medium text-accent">
+            <span className="rounded-full border border-success/20 bg-success-soft px-2 py-0.5 text-[11px] font-medium text-success">
               Low Priority
             </span>
           )}
           {task.tags.map((tag) => (
-            <span key={tag} className="rounded-full bg-surface-tone px-2 py-0.5 text-[11px] text-ink-secondary">
+            <span key={tag} className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${tagTone(tag)}`}>
               {tag}
             </span>
           ))}
           {isDone && (
-            <span className="inline-flex items-center gap-0.5 text-[11px] font-medium text-accent">
+            <span className="inline-flex items-center gap-0.5 text-[11px] font-medium text-success">
               <IconCheckCircleSmall />
               Resolved
             </span>
@@ -107,7 +108,7 @@ export function TaskCard({ task, onOpen }: { task: Task; onOpen?: () => void }) 
             <>
               <span
                 className={`flex items-center gap-1 ${
-                  task.dueTone === 'highlight' ? 'font-medium text-accent' : 'text-ink-tertiary'
+                  task.dueTone === 'highlight' ? 'font-medium text-warning' : 'text-ink-tertiary'
                 }`}
               >
                 {task.dueTone === 'highlight' ? <IconScheduleSmall /> : <IconCalendarSmall />}

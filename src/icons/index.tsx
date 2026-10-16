@@ -233,7 +233,7 @@ export const IconLogout = (p: IconProps) => (
 
 export const IconLogo = ({ size = 32, ...props }: IconProps) => (
   <svg viewBox="0 0 32 32" width={size} height={size} aria-hidden="true" {...props}>
-    <rect width="32" height="32" rx="8" fill="#5C7C66" />
+    <rect width="32" height="32" rx="8" fill="#2563EB" />
     <path
       d="M11 7v18M11 15.5 19.5 7M13.5 13.5 21.5 25"
       stroke="#FFFFFF"

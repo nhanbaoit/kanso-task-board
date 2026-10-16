@@ -132,14 +132,14 @@ export function BoardHeader({
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
         <StatCard label="Overall Velocity" value={`${velocity}% Done`} icon={<IconSpeed size={19} />} tone="accent" />
-        <StatCard label="Remaining Work" value={`${active} Tasks`} icon={<IconPending size={19} />} tone="secondary" />
+        <StatCard label="Remaining Work" value={`${active} Tasks`} icon={<IconPending size={19} />} tone="warning" />
         <StatCard
           label="Blockers"
           value={blockers === 0 ? 'None active' : `${blockers} active`}
           icon={<IconCheckCircle size={19} />}
-          tone={blockers === 0 ? 'accent' : 'urgent'}
+          tone={blockers === 0 ? 'success' : 'urgent'}
         />
-        <StatCard label="Target Ship" value="Oct 24, 2024" icon={<IconFlag size={19} />} tone="secondary" />
+        <StatCard label="Target Ship" value="Oct 24, 2024" icon={<IconFlag size={19} />} tone="info" />
       </div>
     </div>
   )
@@ -154,10 +154,18 @@ function StatCard({
   label: string
   value: string
   icon: React.ReactNode
-  tone: 'accent' | 'secondary' | 'urgent'
+  tone: 'accent' | 'success' | 'warning' | 'urgent' | 'info'
 }) {
   const toneClass =
-    tone === 'accent' ? 'text-accent' : tone === 'urgent' ? 'text-urgent' : 'text-ink-secondary'
+    tone === 'accent'
+      ? 'text-accent'
+      : tone === 'success'
+        ? 'text-success'
+        : tone === 'warning'
+          ? 'text-warning'
+          : tone === 'urgent'
+            ? 'text-urgent'
+            : 'text-info'
   return (
     <div className="flex items-center justify-between rounded-lg bg-surface p-3 shadow-card ring-1 ring-border-subtle/60">
       <div className="flex flex-col">

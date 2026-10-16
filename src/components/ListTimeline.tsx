@@ -2,6 +2,7 @@
 
 import type { Task } from '../types'
 import { COLUMNS } from '../types'
+import { tagTone } from '../lib/tagTone'
 
 const AVATAR_TONES = [
   'bg-accent-soft text-accent-hover',
@@ -51,7 +52,7 @@ export function ListView({
                   onClick={() => onToggleDone(task.id)}
                   className={`flex size-4 shrink-0 items-center justify-center rounded-sm border transition-colors ${
                     task.column === 'done'
-                      ? 'border-accent bg-accent text-white'
+                      ? 'border-success bg-success text-white'
                       : 'border-[#D5D1C7] bg-surface hover:border-accent'
                   }`}
                 >
@@ -75,7 +76,7 @@ export function ListView({
                 </button>
                 <div className="hidden shrink-0 items-center gap-1.5 md:flex">
                   {task.tags.map((tag) => (
-                    <span key={tag} className="rounded-full bg-surface-tone px-2 py-0.5 text-[11px] text-ink-secondary">
+                    <span key={tag} className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${tagTone(tag)}`}>
                       {tag}
                     </span>
                   ))}
@@ -138,7 +139,7 @@ export function TimelineView({ tasks }: { tasks: Task[] }) {
             >
               <span
                 className={`size-1.5 shrink-0 rounded-full ${
-                  task.column === 'done' ? 'bg-accent' : task.column === 'inprogress' ? 'bg-warning' : 'bg-ink-tertiary'
+                  task.column === 'done' ? 'bg-success' : task.column === 'inprogress' ? 'bg-warning' : 'bg-accent'
                 }`}
               />
               <span

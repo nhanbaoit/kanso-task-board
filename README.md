@@ -1,5 +1,7 @@
 # Kanso — Task Board
 
+![CI](https://github.com/ngnhanbao/kanso-task-board/actions/workflows/ci.yml/badge.svg)
+
 A calm, minimal kanban task board built for focused teams. Full-stack portfolio project: **Next.js (App Router) + TypeScript + Tailwind CSS v4 + Supabase + dnd-kit**.
 
 > *Kanso (簡素)* — the Japanese aesthetic principle of simplicity and omission of clutter. That idea drives every design decision here: warm paper tones, hairline borders, quiet sage accents, and zero visual noise.
@@ -111,13 +113,23 @@ src/
 └── data.ts                 # Seed data
 ```
 
+## Testing
+
+```bash
+npm run test          # single run (CI mode)
+npm run test:watch    # watch mode
+```
+
+7 unit tests cover the `useTasks` hook: seed loading, task creation with generated keys, cross-column moves, done toggling, deletion and localStorage persistence/restore.
+
 ## Roadmap
 
 - [ ] Authentication (Google / email) with scoped RLS policies
 - [ ] Multiple boards per workspace
 - [ ] Checklist editing directly on cards
 - [ ] Realistic due dates with overdue highlighting
-- [ ] CI with GitHub Actions + unit tests
+- [x] CI with GitHub Actions (typecheck + unit tests + build on every push)
+- [x] Unit tests with Vitest + Testing Library
 
 ---
 

@@ -1,10 +1,13 @@
 # Kanso — Task Board
 
 ![CI](https://github.com/nhanbaoit/kanso-task-board/actions/workflows/ci.yml/badge.svg)
+**[🔗 Live demo](https://kanso-task-board.vercel.app/)**
 
 A calm, minimal kanban task board built for focused teams. Full-stack portfolio project: **Next.js (App Router) + TypeScript + Tailwind CSS v4 + Supabase + dnd-kit**.
 
 > *Kanso (簡素)* — the Japanese aesthetic principle of simplicity and omission of clutter. That idea drives every design decision here: warm paper tones, hairline borders, quiet sage accents, and zero visual noise.
+
+![Kanso board view — kanban with drag & drop, live stats and Supabase sync](docs/screenshot-board.png)
 
 ## Features
 

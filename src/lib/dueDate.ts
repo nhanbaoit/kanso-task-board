@@ -25,6 +25,17 @@ function isoFromParts(y: number, m: number, d: number): string {
   return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`
 }
 
+export function isoFromDate(d: Date): string {
+  return isoFromParts(d.getFullYear(), d.getMonth() + 1, d.getDate())
+}
+
+export function dateFromISO(iso?: string): Date | undefined {
+  const normalized = toISODate(iso)
+  if (!normalized) return undefined
+  const [y, m, d] = normalized.split('-').map(Number)
+  return new Date(y, m - 1, d)
+}
+
 export function formatDueDate(due?: string): string {
   const iso = toISODate(due)
   if (!iso) return due ?? ''

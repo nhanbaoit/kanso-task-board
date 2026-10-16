@@ -100,3 +100,32 @@ select {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* react-day-picker — match the app palette */
+.rdp-root {
+  --rdp-accent-color: var(--color-accent);
+  --rdp-accent-background-color: var(--color-accent-soft);
+  --rdp-day_button-height: 32px;
+  --rdp-day_button-width: 32px;
+  --rdp-day_button-border-radius: 8px;
+  --rdp-selected-border: 2px solid var(--color-accent);
+  font-size: 13px;
+}
+
+.rdp-month_caption {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.rdp-weekday {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-tertiary);
+}
+
+.rdp-outside {
+  color: var(--color-ink-tertiary);
+  opacity: 0.55;
+}

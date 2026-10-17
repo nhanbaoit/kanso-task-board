@@ -58,8 +58,6 @@ export function BoardHeader({
           <p className="flex flex-wrap items-center gap-2 text-[13px] text-ink-secondary">
             <span>Product Launch</span>
             <span className="size-1 rounded-full bg-border-subtle" />
-            <span>Q3 Go-To-Market</span>
-            <span className="size-1 rounded-full bg-border-subtle" />
             <span>{active} active tasks</span>
           </p>
         </div>

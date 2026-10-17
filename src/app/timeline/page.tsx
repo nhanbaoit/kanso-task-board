@@ -11,7 +11,7 @@ export default function TimelinePage() {
       <div className="flex flex-col gap-0.5">
         <h1 className="text-[22px] font-semibold tracking-[-0.015em] text-ink">Roadmap</h1>
         <p className="text-[13px] text-ink-secondary">
-          Tasks with due dates laid out across October
+          Tasks with due dates laid out by month
         </p>
       </div>
 

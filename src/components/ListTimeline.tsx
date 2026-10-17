@@ -106,36 +106,56 @@ export function ListView({
   )
 }
 
-const MONTH_DAYS = 31
-
-function dayOf(due?: string): number | null {
-  const iso = toISODate(due)
-  if (!iso) return null
-  const day = Number.parseInt(iso.slice(8, 10), 10)
-  return day >= 1 && day <= MONTH_DAYS ? day : null
+interface MonthBucket {
+  year: number
+  month: number // 0-based
+  rows: { task: Task; day: number }[]
 }
 
-export function TimelineView({ tasks }: { tasks: Task[] }) {
-  const withDay = tasks.map((t) => ({ task: t, day: dayOf(t.dueDate) })).filter((r) => r.day !== null)
+function daysInMonth(year: number, month: number): number {
+  return new Date(year, month + 1, 0).getDate()
+}
 
+function bucketize(tasks: Task[]): MonthBucket[] {
+  const map = new Map<string, MonthBucket>()
+  for (const task of tasks) {
+    const iso = toISODate(task.dueDate)
+    if (!iso) continue
+    const [year, month, day] = iso.split('-').map(Number)
+    if (day < 1 || day > daysInMonth(year, month - 1)) continue
+    const key = `${year}-${String(month).padStart(2, '0')}`
+    const bucket = map.get(key) ?? { year, month: month - 1, rows: [] }
+    bucket.rows.push({ task, day })
+    map.set(key, bucket)
+  }
+  return [...map.values()].sort((a, b) => a.year - b.year || a.month - b.month)
+}
+
+function MonthTimeline({ bucket }: { bucket: MonthBucket }) {
+  const total = daysInMonth(bucket.year, bucket.month)
+  const monthLabel = new Date(bucket.year, bucket.month, 1).toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric',
+  })
+  const ticks = 7
   return (
     <div className="rounded-xl bg-surface p-4 shadow-card ring-1 ring-border-subtle/60">
       <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-[15px] font-semibold text-ink">October</h2>
-        <span className="text-[12px] text-ink-tertiary">Q3 Go-To-Market · Sprint 4</span>
+        <h2 className="text-[15px] font-semibold text-ink">{monthLabel}</h2>
+        <span className="text-[12px] text-ink-tertiary">{bucket.rows.length} tasks</span>
       </div>
       <div className="mb-1.5 flex justify-between px-0.5 font-mono text-[10px] text-ink-tertiary">
-        {Array.from({ length: 10 }, (_, i) => (
-          <span key={i}>{i * 3 + 1}</span>
+        {Array.from({ length: ticks }, (_, i) => (
+          <span key={i}>{Math.round((i * (total - 1)) / (ticks - 1)) + 1}</span>
         ))}
       </div>
       <div className="flex flex-col gap-1.5">
-        {withDay.map(({ task, day }) => (
+        {bucket.rows.map(({ task, day }) => (
           <div key={task.id} className="relative h-7">
             <div className="absolute inset-x-0 top-1/2 h-px bg-border-subtle/50" />
             <div
               className="absolute top-0 flex h-7 items-center gap-1.5 rounded-md bg-surface-subtle px-2 ring-1 ring-border-subtle"
-              style={{ left: `${(((day as number) - 1) / MONTH_DAYS) * 100}%`, maxWidth: '60%' }}
+              style={{ left: `${(((day as number) - 1) / total) * 100}%`, maxWidth: '60%' }}
             >
               <span
                 className={`size-1.5 shrink-0 rounded-full ${
@@ -149,15 +169,33 @@ export function TimelineView({ tasks }: { tasks: Task[] }) {
               >
                 {task.title}
               </span>
+              <span className="shrink-0 font-mono text-[10px] text-ink-tertiary">{day}</span>
             </div>
           </div>
         ))}
-        {withDay.length === 0 && (
-          <div className="py-8 text-center text-[13px] text-ink-tertiary">
-            No scheduled tasks to show
-          </div>
-        )}
       </div>
+    </div>
+  )
+}
+
+export function TimelineView({ tasks }: { tasks: Task[] }) {
+  const buckets = bucketize(tasks)
+
+  if (buckets.length === 0) {
+    return (
+      <div className="rounded-xl bg-surface p-4 shadow-card ring-1 ring-border-subtle/60">
+        <div className="py-8 text-center text-[13px] text-ink-tertiary">
+          No scheduled tasks to show — add a due date to a task and it will appear here
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col gap-4">
+      {buckets.map((bucket) => (
+        <MonthTimeline key={`${bucket.year}-${bucket.month}`} bucket={bucket} />
+      ))}
     </div>
   )
 }

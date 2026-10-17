@@ -34,7 +34,7 @@ export function DatePicker({ id, value, onChange }: DatePickerProps) {
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-auto p-0"
+        className="z-[70] w-auto p-0"
         align="start"
         onEscapeKeyDown={(e) => e.stopPropagation()}
       >

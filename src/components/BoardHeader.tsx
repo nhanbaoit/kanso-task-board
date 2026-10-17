@@ -7,7 +7,6 @@ import { Dropdown, DropdownItem } from './Dropdown'
 import {
   IconCheckCircle,
   IconFilter,
-  IconFlag,
   IconPerson,
   IconPlus,
   IconSort,
@@ -126,7 +125,7 @@ export function BoardHeader({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         <StatCard label="Overall Velocity" value={`${velocity}% Done`} icon={<IconSpeed size={19} />} tone="accent" />
         <StatCard label="Remaining Work" value={`${active} Tasks`} icon={<IconPending size={19} />} tone="warning" />
         <StatCard
@@ -135,7 +134,6 @@ export function BoardHeader({
           icon={<IconCheckCircle size={19} />}
           tone={blockers === 0 ? 'success' : 'urgent'}
         />
-        <StatCard label="Target Ship" value="Oct 24, 2024" icon={<IconFlag size={19} />} tone="info" />
       </div>
     </div>
   )

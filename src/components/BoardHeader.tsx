@@ -61,8 +61,6 @@ export function BoardHeader({
             <span>Q3 Go-To-Market</span>
             <span className="size-1 rounded-full bg-border-subtle" />
             <span>{active} active tasks</span>
-            <span className="size-1 rounded-full bg-border-subtle" />
-            <span className="font-medium text-accent">Sprint 4 (3 days remaining)</span>
           </p>
         </div>
 

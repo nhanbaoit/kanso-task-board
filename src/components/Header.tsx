@@ -14,6 +14,7 @@ import {
   IconLogo,
   IconLogout,
   IconMenu,
+  IconPerson,
   IconSearch,
 } from '../icons'
 
@@ -21,6 +22,7 @@ export const NAV_ITEMS: { href: string; label: string; icon: typeof IconKanban }
   { href: '/', label: 'Board', icon: IconKanban },
   { href: '/list', label: 'List', icon: IconList },
   { href: '/timeline', label: 'Timeline', icon: IconCalendarWeek },
+  { href: '/profile', label: 'Profile', icon: IconPerson },
 ]
 
 export function Header() {

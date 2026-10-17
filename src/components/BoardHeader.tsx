@@ -4,10 +4,10 @@ import { useState } from 'react'
 import type { Task } from '../types'
 import { useUI } from './UIContext'
 import { Dropdown, DropdownItem } from './Dropdown'
+import { avatarTone } from './avatarTone'
 import {
   IconCheckCircle,
   IconFilter,
-  IconPerson,
   IconPlus,
   IconSort,
   IconSpeed,
@@ -47,6 +47,9 @@ export function BoardHeader({
   const active = total - done
   const velocity = total > 0 ? Math.round((done / total) * 100) : 0
   const blockers = tasks.filter((t) => t.column === 'inprogress' && t.priority === 'urgent').length
+  const assignees = [...new Set(tasks.map((t) => t.assignee).filter((a): a is string => Boolean(a)))]
+  const shown = assignees.slice(0, 3)
+  const extra = assignees.length - shown.length
 
   return (
     <div className="flex flex-col gap-6">
@@ -63,20 +66,23 @@ export function BoardHeader({
         </div>
 
         <div className="flex shrink-0 items-center gap-2">
-          <div className="mr-1 flex items-center -space-x-2">
-            <span className="flex size-7 items-center justify-center rounded-full bg-surface-tone text-ink-secondary ring-2 ring-canvas">
-              <IconPerson size={13} />
-            </span>
-            <span className="flex size-7 items-center justify-center rounded-full bg-info-soft text-[11px] font-medium text-info ring-2 ring-canvas">
-              EL
-            </span>
-            <span className="flex size-7 items-center justify-center rounded-full bg-accent-soft text-[11px] font-medium text-accent-hover ring-2 ring-canvas">
-              MK
-            </span>
-            <span className="flex size-7 items-center justify-center rounded-full bg-surface-tone text-[11px] font-medium text-ink-secondary ring-2 ring-canvas">
-              +4
-            </span>
-          </div>
+          {assignees.length > 0 && (
+            <div className="mr-1 flex items-center -space-x-2">
+              {shown.map((initials) => (
+                <span
+                  key={initials}
+                  className={`flex size-7 items-center justify-center rounded-full text-[11px] font-medium ring-2 ring-canvas ${avatarTone(initials)}`}
+                >
+                  {initials}
+                </span>
+              ))}
+              {extra > 0 && (
+                <span className="flex size-7 items-center justify-center rounded-full bg-surface-tone text-[11px] font-medium text-ink-secondary ring-2 ring-canvas">
+                  +{extra}
+                </span>
+              )}
+            </div>
+          )}
           <span className="mx-0.5 hidden h-4 w-px bg-border-subtle sm:block" />
 
           <Dropdown

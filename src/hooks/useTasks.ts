@@ -74,8 +74,8 @@ function loadLocal(): Task[] {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return SEED_TASKS
     const parsed = JSON.parse(raw) as Task[]
-    const list = Array.isArray(parsed) && parsed.length > 0 ? parsed : SEED_TASKS
-    return list.map((t) => ({ ...t, dueDate: toISODate(t.dueDate) }))
+    if (!Array.isArray(parsed)) return SEED_TASKS
+    return parsed.map((t) => ({ ...t, dueDate: toISODate(t.dueDate) }))
   } catch {
     return SEED_TASKS
   }
@@ -112,7 +112,7 @@ export function useTasks() {
           setIsRemote(false)
         } else {
           const rows = data as DBTask[]
-          setTasks(rows.length > 0 ? rows.map(rowToTask) : SEED_TASKS)
+          setTasks(rows.map(rowToTask))
           setIsRemote(true)
         }
         setLoading(false)

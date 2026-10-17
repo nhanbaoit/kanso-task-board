@@ -152,25 +152,21 @@ function StatCard({
   icon: React.ReactNode
   tone: 'accent' | 'success' | 'warning' | 'urgent' | 'info'
 }) {
-  const toneClass =
-    tone === 'accent'
-      ? 'text-accent'
-      : tone === 'success'
-        ? 'text-success'
-        : tone === 'warning'
-          ? 'text-warning'
-          : tone === 'urgent'
-            ? 'text-urgent'
-            : 'text-info'
+  const tones: Record<typeof tone, { text: string; ring: string; soft: string }> = {
+    accent: { text: 'text-accent', ring: 'ring-accent/25', soft: 'bg-accent-soft' },
+    success: { text: 'text-success', ring: 'ring-success/25', soft: 'bg-success-soft' },
+    warning: { text: 'text-warning', ring: 'ring-warning/30', soft: 'bg-warning-soft' },
+    urgent: { text: 'text-urgent', ring: 'ring-urgent/25', soft: 'bg-urgent-soft' },
+    info: { text: 'text-info', ring: 'ring-info/25', soft: 'bg-info-soft' },
+  }
+  const t = tones[tone]
   return (
-    <div className="flex items-center justify-between rounded-lg bg-surface p-3 shadow-card ring-1 ring-border-subtle/60">
+    <div className={`flex items-center justify-between rounded-lg bg-surface p-3 shadow-card ring-1 ${t.ring}`}>
       <div className="flex flex-col">
         <span className="text-[11px] font-medium uppercase tracking-wider text-ink-secondary">{label}</span>
         <span className="mt-0.5 text-[18px] font-semibold tracking-[-0.01em] text-ink">{value}</span>
       </div>
-      <span className={`flex size-10 items-center justify-center rounded-full bg-surface-subtle ring-1 ring-border-subtle/60 ${toneClass}`}>
-        {icon}
-      </span>
+      <span className={`flex size-10 items-center justify-center rounded-full ${t.soft} ${t.text}`}>{icon}</span>
     </div>
   )
 }

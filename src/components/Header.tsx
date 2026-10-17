@@ -98,7 +98,7 @@ export function Header() {
                   if (!query) setSearchOpen(false)
                 }}
                 placeholder="Search tasks…"
-                className="h-8 w-44 rounded-lg border border-border-subtle bg-surface pl-8 pr-7 text-[13px] text-ink outline-none transition-shadow placeholder:text-ink-tertiary focus:border-accent focus:shadow-[0_0_0_2px_#EDF3EE] sm:w-56"
+                className="h-8 w-56 rounded-lg border border-border-subtle bg-surface pl-8 pr-7 text-[13px] text-ink outline-none transition-shadow placeholder:text-ink-tertiary focus:border-accent focus:shadow-[0_0_0_2px_#EDF3EE] sm:w-64"
               />
               {query && (
                 <button
@@ -117,9 +117,9 @@ export function Header() {
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="flex items-center gap-2.5 rounded-lg bg-surface px-3 py-1.5 shadow-[0_0_0_1px_#E7E4DC] transition-colors hover:text-ink"
+              className="flex w-56 items-center gap-2.5 rounded-lg bg-surface px-3 py-1.5 shadow-[0_0_0_1px_#E7E4DC] transition-colors hover:text-ink lg:w-64"
             >
-              <span className="flex items-center gap-1.5 text-ink-secondary">
+              <span className="flex flex-1 items-center gap-1.5 text-ink-secondary">
                 <IconSearch size={15} />
                 <span className="hidden text-[13px] text-ink-secondary sm:inline">Quick search</span>
               </span>

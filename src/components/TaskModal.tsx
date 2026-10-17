@@ -246,7 +246,8 @@ export function TaskModal({ open, task, defaultColumn, onClose, onSave, onDelete
             </button>
             <button
               type="submit"
-              className="rounded-lg bg-accent px-3.5 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-accent-hover"
+              disabled={!draft.title.trim()}
+              className="rounded-lg bg-accent px-3.5 py-1.5 text-[13px] font-medium text-white transition-all hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-accent"
             >
               {task ? 'Save changes' : 'Create task'}
             </button>

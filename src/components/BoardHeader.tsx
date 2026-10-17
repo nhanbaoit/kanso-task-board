@@ -51,7 +51,7 @@ export function BoardHeader({
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
-        <div className="flex flex-col gap-1">
+        <div className="flex min-w-0 flex-col gap-1">
           <h1 className="text-[22px] font-semibold tracking-[-0.015em] text-ink">
             Welcome back, {displayName}
           </h1>
@@ -66,7 +66,7 @@ export function BoardHeader({
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <div className="mr-1 flex items-center -space-x-2">
             <span className="flex size-7 items-center justify-center rounded-full bg-surface-tone text-ink-secondary ring-2 ring-canvas">
               <IconPerson size={13} />
